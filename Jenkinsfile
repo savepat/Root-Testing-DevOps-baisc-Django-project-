@@ -15,8 +15,13 @@ pipeline {
                 checkout scm
             }
         }
+        stage('hello') {
+            steps {
+                sh 'python3 hello.py'
+            }
+        }
 
-        tage('Install Dependencies') {
+        stage('Install Dependencies') {
             options {
                 timeout(time: 3, unit: 'MINUTES')
             }
