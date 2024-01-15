@@ -21,21 +21,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            options {
-                timeout(time: 3, unit: 'MINUTES')
-            }
-            steps {
-                script {
-                    sh "ls -la" // todo remove after debug
-                    installDependencies()
-                    sh "ls -la" // todo remove after debug
-                    sh "pip install -r requirements.txt"
-                }
-            }
-        }
-
-
         stage('Run Tests') {
             }
             steps {
