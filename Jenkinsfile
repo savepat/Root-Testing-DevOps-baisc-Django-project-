@@ -16,10 +16,17 @@ pipeline {
             }
         }
        
-        stage('Install Dependencies') {
+         stage('Install Dependencies') {
             steps {
                 script {
-                    sh 'pip install -r requirements.txt'
+                    // สร้าง virtual environment
+                    sh "python${PYTHON_VERSION} -m venv venv"
+                    
+                    // เปิดใช้งาน virtual environment
+                    sh "source venv/bin/activate"
+                    
+                    // ติดตั้ง dependencies
+                    sh "pip install Python==3.12.1 Django==5.0.1 psycopg2==2.9.1 gunicorn==20.1.0"
                 }
             }
         }
