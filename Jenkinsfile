@@ -33,13 +33,6 @@ pipeline {
             }
         }
 
-        stage('setup NGINX'){
-            steps{
-                sh'chmod +x nginx.sh
-                ./nginx.sh'
-            }
-        }
-        
         stage('Run Tests') {
             steps {
                 script {
