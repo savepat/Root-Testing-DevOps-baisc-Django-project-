@@ -3,31 +3,7 @@ pipeline {
     
     environment {
         PYTHON_VERSION = '3.12.1'  
-        DJANGO_SETTINGS_MODULE = 'ROOTS/
-                                    |-- __init__.py
-                                    |-- app/
-                                    |   |-- migrations/
-                                    |   |   |-- __init__.py
-                                    |   |   |-- 0001_initial.py
-                                    |   |-- templates/
-                                    |   |   |-- index.html
-                                    |   |-- __init__.py
-                                    |   |-- admin.py
-                                    |   |-- apps.py
-                                    |   |-- models.py
-                                    |   |-- tests.py
-                                    |   |-- views.py
-                                    |-- project/
-                                    |   |-- __init__.py
-                                    |   |-- asgi.py
-                                    |   |-- settings.py
-                                    |   |-- urls.py
-                                    |   |-- wsgi.py
-                                    |-- db.sqlite3
-                                    |-- jenkinsfile
-                                    |-- docker/
-                                    |-- manage.py
-                                    '  
+        DJANGO_SETTINGS_MODULE = 'ROOTS.project.settings'                                 
         POSTGRES_DB = 'testroot'
         POSTGRES_USER = 'admin'
         POSTGRES_PASSWORD = credentials('0820804859f')  // ใช้ Jenkins credentials สำหรับรหัสผ่าน
