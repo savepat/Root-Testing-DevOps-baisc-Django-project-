@@ -18,9 +18,10 @@ pipeline {
 
         stage('hello') {
             steps {
-                bat 'python hello.py'
+                bat '"C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" hello.py'
             }
         }
+
         
         stage('Install Dependencies') {
             steps {
