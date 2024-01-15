@@ -19,11 +19,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // สร้าง virtual environment
-                    bat 'python -m venv venv'
-
-                    // เปิดใช้งาน virtual environment และติดตั้ง dependencies
-                    bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt'
+                    sh 'pip install -r requirements.txt'
                 }
             }
         }
@@ -31,7 +27,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // เปิดใช้งาน virtual environment และรันคำสั่งทดสอบ
                     bat '.\\venv\\Scripts\\activate && python manage.py test'
                 }
             }
@@ -40,17 +35,16 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    // สร้าง Docker image
                     bat 'docker build -t my-django-app:latest .'
                 }
             }
         }
     }
 
-    
     post {
         always {
             cleanWs()
         }
     }
 }
+

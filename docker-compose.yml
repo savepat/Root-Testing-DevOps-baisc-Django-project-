@@ -11,12 +11,44 @@ services:
     networks:
       - my_network
 
+  # db:
+  #   image: postgres:latest
+  #   environment:
+  #     POSTGRES_DB: testroot
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: 1234
+  # ports:
+  #     - ${TYPEORM_PORT}:5432
+  #   networks:
+  #     - my_network
+
+services:
   db:
     image: postgres:latest
+    volumes:
+      - ./dbData/:/var/lib/postgresql/data
+    restart: always
     environment:
-      POSTGRES_DB: testroot
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: 1234
-    networks:
-      - my_network
+      - POSTGRES_PASSWORD= 1234
+      - POSTGRES_USER= admin
+      - POSTGRES_DB= testroot
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      -"8001:8001"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWROD: password
+      PGADMIN_LISTEN_PORT: 8001
+      ports:
+        - "8001:8001"
+      depends_on:
+        - postgres
+
+volumes
+  pastgres-data:
+
 
