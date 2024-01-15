@@ -15,18 +15,15 @@ pipeline {
                 checkout scm
             }
         }
-       
-         stage('Install Dependencies') {
+
+        stage('Install Dependencies') {
             steps {
                 script {
                     // สร้าง virtual environment
-                    sh "python${PYTHON_VERSION} -m venv venv"
-                    
-                    // เปิดใช้งาน virtual environment
-                    sh "source ./venv/bin/activate"
-                    
-                    // ติดตั้ง dependencies
-                    sh "pip install Python==3.12.1 Django==5.0.1 psycopg2==2.9.1 gunicorn==20.1.0"
+                    bat 'python -m venv venv'
+
+                    // เปิดใช้งาน virtual environment และติดตั้ง dependencies
+                    bat '.\\venv\\Scripts\\activate && pip install -r requirements.txt'
                 }
             }
         }
@@ -34,22 +31,22 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // รันคำสั่งทดสอบโดยระบุ path ของ python ที่ติดตั้งใน virtual environment
-                    sh './venv/bin/python manage.py test'
+                    // เปิดใช้งาน virtual environment และรันคำสั่งทดสอบ
+                    bat '.\\venv\\Scripts\\activate && python manage.py test'
                 }
             }
         }
-
 
         stage('Build and Test') {
             steps {
                 script {
-                    docker.build('my-django-app:latest')
+                    // สร้าง Docker image
+                    bat 'docker build -t my-django-app:latest .'
                 }
             }
         }
-
     }
+
     
     post {
         always {
