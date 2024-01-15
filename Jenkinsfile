@@ -6,7 +6,7 @@ pipeline {
         DJANGO_SETTINGS_MODULE = 'ROOTS.project.settings'                                 
         POSTGRES_DB = 'testroot'
         POSTGRES_USER = 'admin'
-        POSTGRES_PASSWORD = credentials('1234')  // ใช้ Jenkins credentials สำหรับรหัสผ่าน
+        POSTGRES_PASSWORD = credentials('savepat1234')  // ใช้ Jenkins credentials สำหรับรหัสผ่าน
     }
     
     stages {
