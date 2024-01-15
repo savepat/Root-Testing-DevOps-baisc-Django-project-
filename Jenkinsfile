@@ -15,18 +15,25 @@ pipeline {
                 checkout scm
             }
         }
+
         stage('hello') {
             steps {
                 sh 'python3 hello.py'
             }
         }
-
-        stage('Run Tests') {
-            }
+        
+        stage('Install Dependencies') {
             steps {
                 script {
-                    
-                    bat'.\\venv\\Scripts\\activate && python manage.py test'
+                    bat 'pip install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    bat '.\\venv\\Scripts\\activate && python manage.py test'
                 }
             }
         }
