@@ -26,7 +26,9 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    bat 'pip install -r requirements.txt'
+                    echo 'Installing dependencies...'
+                    bat 'C:\Path\To\Your\Python\python.exe -m pip install -r C:\Path\To\Your\Project\requirements.txt'
+
                 }
             }
         }
