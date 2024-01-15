@@ -15,20 +15,12 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Git') {
-            steps {
-                script {
-                    sh 'apt-get update'
-                    sh 'apt-get install -y git'
-                }
-            }
-        }
-
+       
         stage('Install Dependencies') {
             steps {
                 script {
                     sh 'python -m venv venv'
-                    sh 'source venv/bin/activate && pip install -r requirements.txt'
+                    sh 'pip install -r requirements.txt'
                 }
             }
         }
