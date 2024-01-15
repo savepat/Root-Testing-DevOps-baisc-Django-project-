@@ -18,7 +18,7 @@ pipeline {
 
         stage('hello') {
             steps {
-                sh 'python3 hello.py'
+                bat 'python hello.py'
             }
         }
         
@@ -33,7 +33,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    bat '.\\venv\\Scripts\\activate && python manage.py test'
+                    bat 'call .\\venv\\Scripts\\activate && python manage.py test'
                 }
             }
         }
