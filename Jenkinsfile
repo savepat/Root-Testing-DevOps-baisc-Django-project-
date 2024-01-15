@@ -16,18 +16,27 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        tage('Install Dependencies') {
+            options {
+                timeout(time: 3, unit: 'MINUTES')
+            }
             steps {
                 script {
-                    bat 'pip install -r requirements.txt'
+                    sh "ls -la" // todo remove after debug
+                    installDependencies()
+                    sh "ls -la" // todo remove after debug
+                    sh "pip install -r requirements.txt"
                 }
             }
         }
 
+
         stage('Run Tests') {
+            }
             steps {
                 script {
-                    bat '.\\venv\\Scripts\\activate && python manage.py test'
+                    
+                    bat'.\\venv\\Scripts\\activate && python manage.py test'
                 }
             }
         }
