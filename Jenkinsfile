@@ -23,7 +23,7 @@ pipeline {
                     sh "python${PYTHON_VERSION} -m venv venv"
                     
                     // เปิดใช้งาน virtual environment
-                    sh "source venv/bin/activate"
+                    sh "source ./venv/bin/activate"
                     
                     // ติดตั้ง dependencies
                     sh "pip install Python==3.12.1 Django==5.0.1 psycopg2==2.9.1 gunicorn==20.1.0"
@@ -34,10 +34,12 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh 'source venv/bin/activate && python manage.py test'
+                    // รันคำสั่งทดสอบโดยระบุ path ของ python ที่ติดตั้งใน virtual environment
+                    sh './venv/bin/python manage.py test'
                 }
             }
         }
+
 
         stage('Build and Test') {
             steps {
