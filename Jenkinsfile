@@ -27,11 +27,11 @@ pipeline {
             steps {
                 script {
                     echo 'Installing dependencies...'
-                    bat 'C:\Path\To\Your\Python\python.exe -m pip install -r C:\Path\To\Your\Project\requirements.txt'
-
+                    bat 'C:\\Path\\To\\Your\\Python\\python.exe -m pip install -r C:\\Path\\To\\Your\\Project\\requirements.txt'
                 }
             }
         }
+
 
         stage('Run Tests') {
             steps {
