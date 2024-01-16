@@ -52,13 +52,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy') {
-            steps {
-                // Deploy your Django application
-                // This stage depends on your deployment process
-            }
-        }
     }
 
     post {
