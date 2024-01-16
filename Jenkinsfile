@@ -16,28 +16,11 @@ pipeline {
             }
         }
 
-        stage('python3') {
-            step {
-                sh 'python --version'
-            }
-        }
-
         stage('hello') {
             steps {
                 bat '"C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" hello.py'
             }
         }
-
-        
-        stage('Install Dependencies') {
-            steps {
-                script {
-                   
-                    
-                }
-            }
-        }
-
 
         stage('Run Tests') {
             steps {
