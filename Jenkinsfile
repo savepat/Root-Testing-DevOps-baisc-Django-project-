@@ -6,43 +6,77 @@ pipeline {
         DJANGO_SETTINGS_MODULE = 'ROOTS.project.settings'                                 
         POSTGRES_DB = 'testroot'
         POSTGRES_USER = 'admin'
-        POSTGRES_PASSWORD = credentials('savepat1234')  // ใช้ Jenkins credentials สำหรับรหัสผ่าน
+        POSTGRES_PASSWORD = credentials('savepat1234')  
     }
     
     stages {
         stage('Checkout') {
             steps {
+                // Checkout the source code from your version control system
                 checkout scm
             }
         }
 
-        stage('hello') {
+        stage('Install Dependencies') {
             steps {
-                bat '"C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" hello.py'
+                // Install Python dependencies
+                script {
+                    sh "${PYTHON_HOME}/bin/pip install -r requirements.txt"
+                }
+            }
+        }
+
+        stage('Run Migrations') {
+            steps {
+                // Apply database migrations
+                script {
+                    sh "${PYTHON_HOME}/bin/python manage.py migrate"
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
+                // Run Django tests
                 script {
-                    bat 'call .\\venv\\Scripts\\activate && python manage.py test'
+                    sh "${PYTHON_HOME}/bin/python manage.py test"
                 }
             }
         }
 
-        stage('Build and Test') {
+        stage('Collect Static Files') {
             steps {
+                // Collect static files for production
                 script {
-                    bat 'docker build -t my-django-app:latest .'
+                    sh "${PYTHON_HOME}/bin/python manage.py collectstatic --noinput"
                 }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy your Django application
+                // This stage depends on your deployment process
             }
         }
     }
 
     post {
+        success {
+            // Actions to perform when the build is successful
+            echo 'Build successful!'
+
+            // Example: Trigger another job
+            build job: 'Deploy-to-Staging'
+        }
+
+        failure {
+            // Actions to perform when the build fails
+            echo 'Build failed!'
+        }
+
         always {
-            cleanWs()
+            // Actions to perform regardless of build outcome
+            echo 'Cleaning up...'
         }
     }
-}
-
