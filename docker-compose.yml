@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:latest
+    image: App
     container_name: pegasus
     environment:
       POSTGRES_DB: testroot
