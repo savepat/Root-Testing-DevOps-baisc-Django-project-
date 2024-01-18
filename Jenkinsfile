@@ -1,18 +1,31 @@
 pipeline {
     agent any
-
+    
+    environment {
+        PYTHON_VERSION = '3.12.1'  
+        DJANGO_SETTINGS_MODULE = 'ROOTS.project.settings'                                 
+        POSTGRES_DB = 'testroot'
+        POSTGRES_USER = 'admin'
+        POSTGRES_PASSWORD = credentials('savepat1234')  // ใช้ Jenkins credentials สำหรับรหัสผ่าน
+    }
+    
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/savepat/Root-Testing-DevOps-baisc-Django-project-.git'
+                checkout scm
             }
         }
 
+        stage('hello') {
+            steps {
+                sh 'python3 hello.py'
+            }
+        }
+        
         stage('Install Dependencies') {
             steps {
                 script {
-                    // ติดตั้ง dependencies ที่จำเป็น
-                    sh 'pip install -r requirements.txt'
+                    bat 'pip install -r requirements.txt'
                 }
             }
         }
@@ -20,28 +33,23 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // รันเทสของ Django
-                    sh 'python manage.py test'
+                    bat '.\\venv\\Scripts\\activate && python manage.py test'
                 }
             }
         }
 
-        stage('Build and Deploy') {
+        stage('Build and Test') {
             steps {
                 script {
-                    // Build and deploy steps ของคุณ
-                    // เช่น Docker build, push, deploy ลงบน server
+                    bat 'docker build -t my-django-app:latest .'
                 }
             }
         }
     }
 
     post {
-        success {
-            echo 'CI/CD pipeline completed successfully!'
-        }
-        failure {
-            echo 'CI/CD pipeline failed!'
+        always {
+            cleanWs()
         }
     }
 }
