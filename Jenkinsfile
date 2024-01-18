@@ -4,41 +4,44 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout source code from SCM
-                checkout scm
+                git 'https://github.com/savepat/Root-Testing-DevOps-baisc-Django-project-.git'
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                // Your build steps here
-                sh 'pip install -r requirements.txt'  // Example: Install Python dependencies
+                script {
+                    // ติดตั้ง dependencies ที่จำเป็น
+                    sh 'pip install -r requirements.txt'
+                }
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
-                // Your test steps here
-                sh 'python manage.py test'  // Example: Run Django tests
+                script {
+                    // รันเทสของ Django
+                    sh 'python manage.py test'
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Build and Deploy') {
             steps {
-                // Your deployment steps here
-                sh 'docker-compose up -d'  // Example: Use Docker Compose for deployment
+                script {
+                    // Build and deploy steps ของคุณ
+                    // เช่น Docker build, push, deploy ลงบน server
+                }
             }
         }
     }
 
     post {
         success {
-            // Notification or additional steps on successful deployment
-            echo 'Deployment successful!'
+            echo 'CI/CD pipeline completed successfully!'
         }
         failure {
-            // Notification or additional steps on deployment failure
-            echo 'Deployment failed!'
+            echo 'CI/CD pipeline failed!'
         }
     }
 }
