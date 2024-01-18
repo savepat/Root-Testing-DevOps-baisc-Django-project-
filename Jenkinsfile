@@ -2,36 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            stage('Checkout') {
+        stage('Check SCM') {
             steps {
-                script {
-                    // ใช้ Git executable จากเครื่องมือที่ได้ติดตั้ง
-                    git 'clone https://github.com/savepat/Root-Testing-DevOps-baisc-Django-project-.git'
-                }
-            }
-        }
-        }
-
-        stage('Build') {
-            steps {
-                // แทรกคำสั่ง build ของคุณที่นี่
-                echo 'Building your project...'
+                // ตรวจสอบการเปลี่ยนแปลงใน SCM (Git)
+                checkout scm
             }
         }
 
-        stage('Test') {
+        stage('Build Report') {
             steps {
-                // แทรกคำสั่งทดสอบของคุณที่นี่
-                echo 'Running tests...'
+                // ทำการ build report (ตัวอย่าง: ใช้คำสั่งที่เหมาะสม)
+                sh 'mvn clean install'  // ตัวอย่าง: การใช้ Maven เพื่อ build report
             }
         }
 
-        stage('Deploy') {
-            steps {
-                // แทรกคำสั่งการ deploy ของคุณที่นี่
-                echo 'Deploying your application...'
-            }
+        // เพิ่ม stages อื่น ๆ ตามความต้องการ
+    }
+
+    post {
+        success {
+            // กระทำที่จะทำเมื่อทุก stage ผ่านโดยไม่มีข้อผิดพลาด
+            echo 'Build successful!'
+        }
+        failure {
+            // กระทำที่จะทำเมื่อมี stage ใด ๆ ล้มเหลว
+            echo 'Build failed!'
         }
     }
 }

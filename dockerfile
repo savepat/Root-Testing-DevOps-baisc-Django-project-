@@ -1,13 +1,20 @@
-# Stage 1: Build
-FROM python:3.8 AS build
-WORKDIR /app
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+# Use an official Python runtime as a parent image
+FROM python:3.8
 
-# Stage 2: Production
-FROM python:3.8-slim
+# Set the working directory in the container
 WORKDIR /app
-COPY --from=build /app /app
-COPY . .
-EXPOSE 80
-CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
+
+# Define environment variable
+ENV NAME World
+
+# Run Gunicorn when the container launches
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "Roots.wsgi:application"]
