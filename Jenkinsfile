@@ -1,29 +1,31 @@
-pipeline{
+pipeline {
     agent any
+
     stages {
-    
-        stage('Setup Python Virtual ENV for dependencies'){
-       
-      steps  {
-            sh '''
-            chmod +x envsetup.sh
-            ./envsetup.sh
-            '''}
-        }
-        stage('Setup Gunicorn Setup'){
+        stage('Checkout') {
             steps {
-                sh '''
-                chmod +x gunicorn.sh
-                ./gunicorn.sh
-                '''
+                checkout scm
             }
         }
-        stage('setup NGINX'){
+
+        stage('Build') {
             steps {
-                sh '''
-                chmod +x nginx.sh
-                ./nginx.sh
-                '''
+                // แทรกคำสั่ง build ของคุณที่นี่
+                echo 'Building your project...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // แทรกคำสั่งทดสอบของคุณที่นี่
+                echo 'Running tests...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // แทรกคำสั่งการ deploy ของคุณที่นี่
+                echo 'Deploying your application...'
             }
         }
     }
