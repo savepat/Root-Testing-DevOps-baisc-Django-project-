@@ -3,9 +3,14 @@ pipeline {
 
     stages {
         stage('Checkout') {
+            stage('Checkout') {
             steps {
-                checkout scm
+                script {
+                    // ใช้ Git executable จากเครื่องมือที่ได้ติดตั้ง
+                    git 'clone https://github.com/savepat/Root-Testing-DevOps-baisc-Django-project-.git'
+                }
             }
+        }
         }
 
         stage('Build') {
